@@ -14,9 +14,10 @@ def check_disk():
             ["df", "-h", "/sdf/data/supercdms"],
             stdout=subprocess.PIPE,
             )
-    total_size = output.stdout[71:-39].decode("utf-8")
-    used = output.stdout[77:-33].decode("utf-8")
-    percent = output.stdout[ 88:-22].decode("utf-8")
+    output = output.stdout.split()
+    total_size = output[8].decode("utf-8")[:-1]
+    used = output[9].decode("utf-8")[:-1]
+    percent = output[11].decode("utf-8")[:-1]
     logging.info("", extra={"total_size": total_size, "used": used, "percent": percent})
 
 if __name__ == '__main__':
