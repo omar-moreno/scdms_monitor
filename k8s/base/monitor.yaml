@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: monitor
+spec:
+  replicas: 1
+  selector:
+    matchLabels: 
+      app: monitor
+  template:
+    metadata:
+      labels:
+        app: monitor
+    spec:
+      containers:
+      - name: monitor
+        image: omarmoreno/scdms_monitor:0.1.0
+        imagePullPolicy: Always
+        volumeMounts: 
+          - name: sdf-data
+            mountPath: /sdf/data/supercdms
+          - name: sdf-group
+            mountPath: /sdf/group/supercdms
+      volumes:
+        - name: sdf-data
+          persistentVolumeClaim: 
+            claimName: sdf-data-supercdms-ro
+        - name: sdf-group
+          persistentVolumeClaim: 
+            claimName: sdf-group-supercdms-ro
