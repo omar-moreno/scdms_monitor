@@ -20,6 +20,17 @@ def check_disk():
     percent = output[11].decode("utf-8")[:-1]
     logging.info("", extra={"total_size": total_size, "used": used, "percent": percent})
 
+    output = subprocess.run(
+            ["df", "-h", "/sdf/group/supercdms"],
+            stdout=subprocess.PIPE,
+            )
+    output = output.stdout.split()
+    total_size = output[8].decode("utf-8")[:-1]
+    used = output[9].decode("utf-8")[:-1]
+    percent = output[11].decode("utf-8")[:-1]
+    logging.info("", extra={"group_total_size": total_size, "group_used": used,
+                            "group_percent": percent})
+
 if __name__ == '__main__':
     while True:
         check_disk()
